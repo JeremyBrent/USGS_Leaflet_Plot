@@ -39,102 +39,82 @@ const markerSize = (num) => num * 30000;
 
 const markerColor = (num) => {
   switch (true) {
-    case (num > 7):
-      return '#94003a';
-    case (num > 6):
+    case num > 7:
+      return "#94003a";
+    case num > 6:
       return "#a23648";
-    case (num > 5): 
+    case num > 5:
       return "#b05657";
-    case (num > 4): 
+    case num > 4:
       return "#be7366";
-    case (num > 3): 
+    case num > 3:
       return "#ca9077";
-    case (num > 2): 
+    case num > 2:
       return "#d6ac88";
-    case (num > 1): 
+    case num > 1:
       return "#e2c89a";
-    case (num > 0): 
+    case num > 0:
       return "#ffffc5";
     default:
       return "black";
   }
 };
 
-
 d3.json(url, (data) => {
   console.log(data);
-  L.geoJSON(data, {
+
+  eqMag = [];
+
+  for (var i = 0; i < data.length; i++) {
+    eqMag.push(data.features[i].properties.mag);
+  }
+  console.log(eqMag);
+
+  var eqData = L.geoJSON(data, {
     onEachFeature: (feature, layer) => {
       layer.bindPopup(`
         <h3> ${feature.properties.place} </h3> 
         <hr>
         <p> ${new Date(feature.properties.time)} </p>
         <p> Magnitude: ${feature.properties.mag} </p>
-        `
-      );
-    }, 
+        `);
+    },
     pointToLayer: (feature, latlng) => {
-      console.log(feature.properties.mag);
-      return L.circle(latlng, 
-        {radius: markerSize(feature.properties.mag),
+      // console.log(feature.properties.mag);
+      return L.circle(latlng, {
+        radius: markerSize(feature.properties.mag),
         fillColor: markerColor(feature.properties.mag),
         color: markerColor(feature.properties.mag),
       });
     },
   }).addTo(myMap);
+
+  // console.log(eqData);
+  // var legend = L.control({ position: "bottomright" });
+  // legend.onAdd = function (map) {
+  //   // console.log(map)
+  //   var div = L.DomUtil.create("div", "info legend");
+  //   var limits = [...Array(d3.max(feature.properties.mag) + 1).keys()];
+  //   // console.log(limits)
+  //   var colors = eqData.options.colors;
+  //   var labels = [];
+
+  //   // Add min & max
+  //   div.innerHTML =
+  //     '<div class="labels"><div class="min">' +
+  //     limits[0] +
+  //     '</div> \
+  //   <div class="max">' +
+  //     limits[limits.length - 1] +
+  //     "</div></div>";
+
+  //   limits.forEach(function (limit, index) {
+  //     labels.push('<li style="background-color: ' + colors[index] + '"></li>');
+  //   });
+
+  //   div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+  //   return div;
+  // };
+  // legend.addTo(myMap);
 });
 
-// L.circle(earthquakes.features[i].geometry.coordinates, {
-//   fillOpacity: 0.75,
-//   color: "white",
-//   fillColor: "purple",
-//   // Setting our circle's radius equal to the output of our markerSize function
-//   // This will make our marker's size proportionate to the magnitude of the EQ
-//   radius: earthquakes.feature[i].properties.mag,
-// })
-//   .bindPopup(
-//     `<h3> ${feature.properties.place} </h3>
-//         <hr>
-//         <p> ${new Date(feature.properties.time)} </p>
-//         <p> Magnitude: ${feature.properties.mag} </p>`
-//   )
-//   .addTo(myMap);
-
-// function createMap(earthquakes) {
-//   // Define streetmap and darkmap layers
-
-//   console.log(earthquakes.geometry);
-//   // Loop through the cities array and create one marker for each city object
-//   for (var i = 0; i < earthquakes.length; i++) {}
-
-//   // Define a baseMaps object to hold our base layers
-
-//   // Create overlay object to hold our overlay layer
-//   var overlayMaps = {
-//     Earthquakes: earthquakes,
-//   };
-
-//   // Create our map, giving it the streetmap and earthquakes layers to display on load
-
-//   // Create a layer control
-//   // Pass in our baseMaps and overlayMaps
-//   // Add the layer control to the map
-// }
-
-// function createFeatures(earthquakeData) {
-//   // Define a function we want to run once for each feature in the features array
-//   // Give each feature a popup describing the place and time of the earthquake
-//   function onEachFeature(feature, layer) {
-//     layer;
-//   }
-
-//   // Create a GeoJSON layer containing the features array on the earthquakeData object
-//   // Run the onEachFeature function once for each piece of data in the array
-//   var earthquakes = L.geoJSON(earthquakeData, {
-//     onEachFeature: onEachFeature,
-//   });
-
-//   // Sending our earthquakes layer to the createMap function
-//   createMap(earthquakes);
-//   console.log(earthquakes);
-// }
