@@ -35,20 +35,51 @@ var darkmap = L.tileLayer(
 url =
   "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
 
+const markerSize = (num) => num * 30000;
+
+const markerColor = (num) => {
+  switch (true) {
+    case (num > 7):
+      return '#94003a';
+    case (num > 6):
+      return "#a23648";
+    case (num > 5): 
+      return "#b05657";
+    case (num > 4): 
+      return "#be7366";
+    case (num > 3): 
+      return "#ca9077";
+    case (num > 2): 
+      return "#d6ac88";
+    case (num > 1): 
+      return "#e2c89a";
+    case (num > 0): 
+      return "#ffffc5";
+    default:
+      return "black";
+  }
+};
+
+
 d3.json(url, (data) => {
   console.log(data);
   L.geoJSON(data, {
     onEachFeature: (feature, layer) => {
-      layer.bindPopup(
-        `<h3> ${feature.properties.place} </h3> 
-                <hr>
-                <p> ${new Date(feature.properties.time)} </p>
-                <p> Magnitude: ${feature.properties.mag} </p>`
+      layer.bindPopup(`
+        <h3> ${feature.properties.place} </h3> 
+        <hr>
+        <p> ${new Date(feature.properties.time)} </p>
+        <p> Magnitude: ${feature.properties.mag} </p>
+        `
       );
-    },
+    }, 
     pointToLayer: (feature, latlng) => {
-      console.log(feature);
-        return L.circleMarker(latlng);
+      console.log(feature.properties.mag);
+      return L.circle(latlng, 
+        {radius: markerSize(feature.properties.mag),
+        fillColor: markerColor(feature.properties.mag),
+        color: markerColor(feature.properties.mag),
+      });
     },
   }).addTo(myMap);
 });
