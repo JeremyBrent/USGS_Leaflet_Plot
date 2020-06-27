@@ -1,8 +1,9 @@
 url =
-  "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
+  "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
 
 d3.json(url, function (data) {
   createFeatures(data.features);
+  console.log(data);
 });
 
 function createMap(earthquakes) {
@@ -30,6 +31,18 @@ function createMap(earthquakes) {
       accessToken: API_KEY,
     }
   );
+    
+  // Loop through the cities array and create one marker for each city object
+    for (var i = 0; i < earthquakes.length; i++) {
+        L.circle(earthquakes.features[i].geometry.coordinates, {
+        fillOpacity: 0.75,
+        color: "white",
+        fillColor: "purple",
+        // Setting our circle's radius equal to the output of our markerSize function
+        // This will make our marker's size proportionate to its population
+        radius: earthquakes.feature[i].properties.mag
+        }).addTo(myMap)
+    }
 
   // Define a baseMaps object to hold our base layers
   var baseMaps = {
@@ -60,24 +73,25 @@ function createMap(earthquakes) {
 }
 
 function createFeatures(earthquakeData) {
+    
   // Define a function we want to run once for each feature in the features array
   // Give each feature a popup describing the place and time of the earthquake
   function onEachFeature(feature, layer) {
     layer.bindPopup(
-      "<h3>" +
-        feature.properties.place +
-        "</h3><hr><p>" +
-        new Date(feature.properties.time) +
-        "</p>"
-    );
-  }
+            `<h3> ${feature.properties.place} </h3> 
+            <hr>
+            <p> ${new Date(feature.properties.time)} </p>
+            <p> Magnitude: ${feature.properties.mag} </p>`
+            ); 
+    }
+
 
   // Create a GeoJSON layer containing the features array on the earthquakeData object
   // Run the onEachFeature function once for each piece of data in the array
   var earthquakes = L.geoJSON(earthquakeData, {
     onEachFeature: onEachFeature,
   });
-  console.log(earthquakeData);
+  
   // Sending our earthquakes layer to the createMap function
   createMap(earthquakes);
 }
