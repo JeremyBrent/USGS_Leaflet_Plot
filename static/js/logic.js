@@ -1,39 +1,4 @@
-var myMap = L.map("map", {
-  center: [37.09, -95.71],
-  zoom: 4,
-});
-
-var streetmap = L.tileLayer(
-  "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
-  {
-    attribution:
-      "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-    tileSize: 512,
-    maxZoom: 18,
-    zoomOffset: -1,
-    id: "mapbox/streets-v11",
-    accessToken: API_KEY,
-  }
-);
-
-var darkmap = L.tileLayer(
-  "https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
-  {
-    attribution:
-      'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    id: "dark-v10",
-    accessToken: API_KEY,
-  }
-).addTo(myMap);
-
-// var baseMaps = {
-//   "Street Map": streetmap,
-//   "Dark Map": darkmap,
-// };
-
-url =
-  "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
+createMarkers();
 
 const markerSize = (num) => num * 30000;
 
@@ -60,44 +25,50 @@ const markerColor = (num) => {
   }
 };
 
-d3.json(url, (data) => {
-  
+function createMarkers() {
+  url =
+    "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
 
-  eqMag = [];
+  d3.json(url, (data) => {
+    eqMag = [];
 
-  for (var i = 0; i < data.length; i++) {
-    eqMag.push(data.features[i].properties.mag);
-  }
-  console.log(eqMag);
+    for (var i = 0; i < data.length; i++) {
+      eqMag.push(data.features[i].properties.mag);
+    }
+    // console.log(eqMag);
 
-  var eqData = L.geoJSON(data, {
-    onEachFeature: (feature, layer) => {
-      layer.bindPopup(`
+    var eqData = L.geoJSON(data, {
+      onEachFeature: (feature, layer) => {
+        layer.bindPopup(`
         <h3> ${feature.properties.place} </h3> 
         <hr>
         <p> ${new Date(feature.properties.time)} </p>
         <p> Magnitude: ${feature.properties.mag} </p>
         `);
-    },
-    pointToLayer: (feature, latlng) => {
-      console.log(`${feature.properties.place}: ${markerSize(feature.properties.mag)}, mag: ${feature.properties.mag}`);
-      return L.circle(latlng, {
-        radius: markerSize(feature.properties.mag),
-        fillColor: markerColor(feature.properties.mag),
-        color: markerColor(feature.properties.mag),
-      });
-    },
-  }).addTo(myMap);
+      },
+      pointToLayer: (feature, latlng) => {
+        // console.log(
+        //   `${feature.properties.place}: ${markerSize(
+        //     feature.properties.mag
+        //   )}, mag: ${feature.properties.mag}`
+        // );
+        return L.circle(latlng, {
+          radius: markerSize(feature.properties.mag),
+          fillColor: markerColor(feature.properties.mag),
+          color: markerColor(feature.properties.mag),
+        });
+      },
+    });
 
+    console.log(eqData)
+    eqLayer = eqData;
+    console.log(eqLayer)
 
-  console.log(eqData);
+    var legend = L.control({ position: "bottomright" });
+    legend.onAdd = function (map) {
+      var div = L.DomUtil.create("div", "info legend");
 
-  var legend = L.control({ position: "bottomright" });
-  legend.onAdd = function (map) {
-    
-    var div = L.DomUtil.create("div", "info legend");
-    
-    div.innerHTML += `\
+      div.innerHTML += `\
       <h4> Earthquake <br> Magnitude </h4> \
       <i style= "background: #94003a"></i> 7+ \
       <br>
@@ -115,9 +86,72 @@ d3.json(url, (data) => {
       <br>
       <i style= "background: #ffffc5"></i> 0 - 1 \
       <br>
-      `
-    return div;
-  };
-  legend.addTo(myMap);
-});
+      `;
+      return div;
+    };
 
+    legend = legend;
+
+    createTectonics();
+  });
+}
+
+function createTectonics() {
+  url =
+    "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
+
+  d3.json(url, function (data) {
+    console.log(data);
+    tectonicData = L.geoJSON(data);
+
+    
+
+    createMap();
+  });
+}
+
+function createMap() {
+  var streetmap = L.tileLayer(
+    "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+    {
+      attribution:
+        "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+      tileSize: 512,
+      maxZoom: 18,
+      zoomOffset: -1,
+      id: "mapbox/streets-v11",
+      accessToken: API_KEY,
+    }
+  );
+
+  var darkmap = L.tileLayer(
+    "https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+    {
+      attribution:
+        'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: 18,
+      id: "dark-v10",
+      accessToken: API_KEY,
+    }
+  );
+
+  var baseMaps = {
+    "Street Map": streetmap,
+    "Dark Map": darkmap,
+  };
+
+  var overlayMaps = {
+    "Earth Quakes": eqLayer,
+    "Tectonic Plates": tectonicData
+  };
+
+  var myMap = L.map("map", {
+    center: [37.09, -95.71],
+    zoom: 4,
+    layers: [darkmap, eqLayer],
+  });
+
+  // legend.addTo(myMap);
+
+  L.control.layers(baseMaps, overlayMaps).addTo(myMap);
+}
