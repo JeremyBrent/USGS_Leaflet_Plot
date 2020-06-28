@@ -149,9 +149,19 @@ function createMap() {
     return div;
   }
 
+  legend.addTo(myMap);
+
   console.log(myMap)
 
-  legend.addTo(myMap);
+  eqLayer.on('tileload', function(e) {
+    legend.removeLayer(myMap);;
+  });
+
+  // streetmap.on('tileload', function(e) {
+  //   myMap.removeLayer(legend);
+  // });
+
+  
 
   L.control.layers(baseMaps, overlayMaps).addTo(myMap);
 }
