@@ -60,37 +60,7 @@ function createMarkers() {
       },
     });
 
-    console.log(eqData)
     eqLayer = eqData;
-    console.log(eqLayer)
-
-    var legend = L.control({ position: "bottomright" });
-    legend.onAdd = function (map) {
-      var div = L.DomUtil.create("div", "info legend");
-
-      div.innerHTML += `\
-      <h4> Earthquake <br> Magnitude </h4> \
-      <i style= "background: #94003a"></i> 7+ \
-      <br>
-      <i style= "background: #a23648"></i> 6 - 7  \
-      <br>
-      <i style= "background: #b05657"></i> 5 - 6 \
-      <br>
-      <i style= "background: #be7366"></i> 4 - 5 \
-      <br>
-      <i style= "background: #ca9077"></i> 3 - 4 \
-      <br>
-      <i style= "background: #d6ac88"></i> 2 - 3 \
-      <br>
-      <i style= "background: #e2c89a"></i> 1 - 2 \
-      <br>
-      <i style= "background: #ffffc5"></i> 0 - 1 \
-      <br>
-      `;
-      return div;
-    };
-
-    legend = legend;
 
     createTectonics();
   });
@@ -101,10 +71,8 @@ function createTectonics() {
     "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
 
   d3.json(url, function (data) {
-    console.log(data);
+    // console.log(data);
     tectonicData = L.geoJSON(data);
-
-    
 
     createMap();
   });
@@ -115,7 +83,9 @@ function createMap() {
     "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
     {
       attribution:
-        "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+        "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © \
+        <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> \
+        <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
       tileSize: 512,
       maxZoom: 18,
       zoomOffset: -1,
@@ -128,7 +98,9 @@ function createMap() {
     "https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
     {
       attribution:
-        'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © \
+        <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> \
+        <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
       maxZoom: 18,
       id: "dark-v10",
       accessToken: API_KEY,
@@ -142,7 +114,7 @@ function createMap() {
 
   var overlayMaps = {
     "Earth Quakes": eqLayer,
-    "Tectonic Plates": tectonicData
+    "Tectonic Plates": tectonicData,
   };
 
   var myMap = L.map("map", {
@@ -151,7 +123,35 @@ function createMap() {
     layers: [darkmap, eqLayer],
   });
 
-  // legend.addTo(myMap);
+  var legend = L.control({ position: "bottomright" });
+  legend.onAdd = function (map) {
+    var div = L.DomUtil.create("div", "info legend");
+
+    div.innerHTML += `\
+    <h4> Earthquake <br> Magnitude </h4> \
+    <i style= "background: #94003a"></i> 7+ \
+    <br>
+    <i style= "background: #a23648"></i> 6 - 7  \
+    <br>
+    <i style= "background: #b05657"></i> 5 - 6 \
+    <br>
+    <i style= "background: #be7366"></i> 4 - 5 \
+    <br>
+    <i style= "background: #ca9077"></i> 3 - 4 \
+    <br>
+    <i style= "background: #d6ac88"></i> 2 - 3 \
+    <br>
+    <i style= "background: #e2c89a"></i> 1 - 2 \
+    <br>
+    <i style= "background: #ffffc5"></i> 0 - 1 \
+    <br>
+    `;
+    return div;
+  }
+
+  console.log(myMap)
+
+  legend.addTo(myMap);
 
   L.control.layers(baseMaps, overlayMaps).addTo(myMap);
 }
