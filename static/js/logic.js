@@ -1,6 +1,6 @@
 var myMap = L.map("map", {
   center: [37.09, -95.71],
-  zoom: 5,
+  zoom: 4,
 });
 
 var streetmap = L.tileLayer(
@@ -61,7 +61,7 @@ const markerColor = (num) => {
 };
 
 d3.json(url, (data) => {
-  console.log(data);
+  
 
   eqMag = [];
 
@@ -80,7 +80,7 @@ d3.json(url, (data) => {
         `);
     },
     pointToLayer: (feature, latlng) => {
-      // console.log(feature.properties.mag);
+      console.log(`${feature.properties.place}: ${markerSize(feature.properties.mag)}, mag: ${feature.properties.mag}`);
       return L.circle(latlng, {
         radius: markerSize(feature.properties.mag),
         fillColor: markerColor(feature.properties.mag),
@@ -89,32 +89,35 @@ d3.json(url, (data) => {
     },
   }).addTo(myMap);
 
-  // console.log(eqData);
-  // var legend = L.control({ position: "bottomright" });
-  // legend.onAdd = function (map) {
-  //   // console.log(map)
-  //   var div = L.DomUtil.create("div", "info legend");
-  //   var limits = [...Array(d3.max(feature.properties.mag) + 1).keys()];
-  //   // console.log(limits)
-  //   var colors = eqData.options.colors;
-  //   var labels = [];
 
-  //   // Add min & max
-  //   div.innerHTML =
-  //     '<div class="labels"><div class="min">' +
-  //     limits[0] +
-  //     '</div> \
-  //   <div class="max">' +
-  //     limits[limits.length - 1] +
-  //     "</div></div>";
+  console.log(eqData);
 
-  //   limits.forEach(function (limit, index) {
-  //     labels.push('<li style="background-color: ' + colors[index] + '"></li>');
-  //   });
-
-  //   div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-  //   return div;
-  // };
-  // legend.addTo(myMap);
+  var legend = L.control({ position: "bottomright" });
+  legend.onAdd = function (map) {
+    
+    var div = L.DomUtil.create("div", "info legend");
+    
+    div.innerHTML += `\
+      <h4> Earthquake <br> Magnitude </h4> \
+      <i style= "background: #94003a"></i> 7+ \
+      <br>
+      <i style= "background: #a23648"></i> 6 - 7  \
+      <br>
+      <i style= "background: #b05657"></i> 5 - 6 \
+      <br>
+      <i style= "background: #be7366"></i> 4 - 5 \
+      <br>
+      <i style= "background: #ca9077"></i> 3 - 4 \
+      <br>
+      <i style= "background: #d6ac88"></i> 2 - 3 \
+      <br>
+      <i style= "background: #e2c89a"></i> 1 - 2 \
+      <br>
+      <i style= "background: #ffffc5"></i> 0 - 1 \
+      <br>
+      `
+    return div;
+  };
+  legend.addTo(myMap);
 });
 
