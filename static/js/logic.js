@@ -1,11 +1,23 @@
-url =
-  "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
 
-button = d3.select("a")
 
-console.log(button)
-// url = 
-createMarkers(url);
+// url =
+//   "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
+
+// link = button.property("value")
+// button = d3.selectAll(".button");
+
+const getUrl = (element) => {
+  var url = element.value;
+  console.log(url);
+  createMarkers(url);
+};
+
+var button = document.getElementById("button");
+
+button.addEventListener("click", () => getUrl(button));
+
+
+// createMarkers(url);
 
 const markerSize = (num) => num * 30000;
 
@@ -32,15 +44,9 @@ const markerColor = (num) => {
   }
 };
 
-function createMarkers(url) {
-  
-  d3.json(url, (data) => {
-    eqMag = [];
-
-    for (var i = 0; i < data.length; i++) {
-      eqMag.push(data.features[i].properties.mag);
-    }
-    // console.log(eqMag);
+function createMarkers(link) {
+  console.log(link);
+  d3.json(link, (data) => {
 
     var eqData = L.geoJSON(data, {
       onEachFeature: (feature, layer) => {
