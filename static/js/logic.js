@@ -1,4 +1,11 @@
-createMarkers();
+url =
+  "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
+
+button = d3.select("a")
+
+console.log(button)
+// url = 
+createMarkers(url);
 
 const markerSize = (num) => num * 30000;
 
@@ -25,10 +32,8 @@ const markerColor = (num) => {
   }
 };
 
-function createMarkers() {
-  url =
-    "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
-
+function createMarkers(url) {
+  
   d3.json(url, (data) => {
     eqMag = [];
 
