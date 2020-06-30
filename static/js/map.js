@@ -1,23 +1,13 @@
+// import { getUrl, button } from "./index.js";
 
 
-// url =
-//   "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
-
-// link = button.property("value")
-// button = d3.selectAll(".button");
-
-const getUrl = (element) => {
-  var url = element.value;
-  console.log(url);
-  createMarkers(url);
-};
-
-var button = document.getElementById("button");
-
-button.addEventListener("click", () => getUrl(button));
-
+// console.log(getUrl)
 
 // createMarkers(url);
+
+window.onLoad = createMarkers(localStorage.getItem("Url"));
+
+
 
 const markerSize = (num) => num * 30000;
 
@@ -71,25 +61,26 @@ function createMarkers(link) {
       },
     });
 
-    eqLayer = eqData;
+    var eqLayer = eqData;
 
-    createTectonics();
+    createTectonics(eqLayer);
   });
 }
 
-function createTectonics() {
-  url =
+function createTectonics(eqLayer) {
+  var url =
     "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
 
   d3.json(url, function (data) {
     // console.log(data);
-    tectonicData = L.geoJSON(data);
+    var tectonicData = L.geoJSON(data,
+        {noWrap:true});
 
-    createMap();
+    createMap(eqLayer, tectonicData);
   });
 }
 
-function createMap() {
+function createMap(eqLayer, tectonicData) {
   // var streetmap = L.tileLayer(
   //   "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
   //   {
@@ -133,6 +124,7 @@ function createMap() {
     center: [37.09, -95.71],
     zoom: 4,
     layers: [darkmap, eqLayer, tectonicData],
+    noWrap: true
   });
 
   var legend = L.control({ position: "bottomright" });
