@@ -21,176 +21,187 @@
     <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
     <!-- <script type="module" src="static/js/index.js"></script> -->
   </head>
+
   <body>
-    <!-- The div that holds our map -->
     <div>
       <div class="headerTitle1">Search Recent</div>
       <div class="headerTitle2">Earthquake</div>
       <div class="headerTitle3">Data</div>
       <div class="header"></div>
     </div>
-    <div>
-      <h2>
-        Earthquakes this month
-      </h2>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html">Significant Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> M4.5+ Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> M2.5+ Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> M1.0+ Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> All Earthquakes </a>
-      </button>
+    <div class="container">
+      <div>
+        <h2>
+          Earthquakes this month
+        </h2>
+        <div class="flex">
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html">Significant Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> M4.5+ Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> M2.5+ Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> M1.0+ Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> All Earthquakes </a>
+          </button>
+        </div>
+      </div>
+      <div>
+        <h2>
+          Earthquakes this week
+        </h2>
+
+        <div class="flex">
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html">Significant Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> M4.5+ Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> M2.5+ Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> M1.0+ Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> All Earthquakes </a>
+          </button>
+        </div>
+      </div>
+      <div>
+        <h2>
+          Earthquakes today
+        </h2>
+        <div class="flex">
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_day.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html">Significant Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> M4.5+ Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> M2.5+ Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_day.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> M1.0+ Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> All Earthquakes </a>
+          </button>
+        </div>
+      </div>
+      <div>
+        <h2>
+          Earthquakes this hour
+        </h2>
+        <div class="flex">
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_hour.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html">Significant Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_hour.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> M4.5+ Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_hour.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> M2.5+ Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_hour.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> M1.0+ Earthquakes </a>
+          </button>
+          <button
+            class="button"
+            value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson"
+            onclick="localStorage.setItem('Url', this.value)"
+          >
+            <a href="map.html"> All Earthquakes </a>
+          </button>
+        </div>
+      </div>
     </div>
     <div>
-      <h2>
-        Earthquakes this week
-      </h2>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html">Significant Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> M4.5+ Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> M2.5+ Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> M1.0+ Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> All Earthquakes </a>
-      </button>
-    </div>
-    <div>
-      <h2>
-        Earthquakes today
-      </h2>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_day.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html">Significant Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> M4.5+ Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> M2.5+ Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_day.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> M1.0+ Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> All Earthquakes </a>
-      </button>
-    </div>
-    <div>
-      <h2>
-        Earthquakes this hour
-      </h2>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_hour.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html">Significant Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_hour.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> M4.5+ Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_hour.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> M2.5+ Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_hour.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> M1.0+ Earthquakes </a>
-      </button>
-      <button
-        class="button"
-        value="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson"
-        onclick= "localStorage.setItem('Url', this.value)"
-      >
-        <a href="map.html"> All Earthquakes </a>
-      </button>
-    </div>
-    <div>
-      <label class="citation">
+      <label class='citation'>
         <em>
           **Data obtained from the USGS
           <a
@@ -199,11 +210,8 @@
             here
           </a>
           **
-        </em></label
-      >
+        </em>
+      </label>
     </div>
-    <!-- <div id="map" style="display: none;"></div> -->
-    
-
   </body>
 </html>
