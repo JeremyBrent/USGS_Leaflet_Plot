@@ -41,11 +41,11 @@ h4 {
 }
 
 h2 {
-  margin-left:25px;
+  margin-left:50px;
 }
 
 .header {
-  background-image: url("../images/earthquake.jpeg");
+  background-image: url("../pictures/earthquake.jpeg");
   height:500px;
   width:100%;
   opacity: .5;
